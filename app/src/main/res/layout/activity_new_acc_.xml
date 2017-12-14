@@ -57,7 +57,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="false"
-        android:layout_marginLeft="55dp"
+        android:layout_marginLeft="50dp"
         android:layout_marginTop="150dp"
         android:ems="10"
         android:hint="Nombre de Usuario"
