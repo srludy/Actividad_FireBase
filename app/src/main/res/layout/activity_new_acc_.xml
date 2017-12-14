@@ -53,7 +53,7 @@
         android:textStyle="bold" />
 
     <EditText
-        android:id="@+id/txt_NameUser"
+        android:id="@+id/txt_UserName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="false"
@@ -67,8 +67,8 @@
         android:id="@+id/txt_Email"
         android:layout_width="240dp"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/txt_NameUser"
-        android:layout_below="@+id/txt_NameUser"
+        android:layout_alignStart="@+id/txt_UserName"
+        android:layout_below="@+id/txt_UserName"
         android:layout_marginTop="30dp"
         android:ems="10"
         android:hint="Correo Electronico"

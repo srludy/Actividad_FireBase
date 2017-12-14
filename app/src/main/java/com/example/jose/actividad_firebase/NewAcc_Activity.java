@@ -23,7 +23,7 @@ public class NewAcc_Activity extends AppCompatActivity {
         //Initations
         btn_Cancel = (Button) findViewById(R.id.btn_Cancel_Register);
         btn_Register = (Button) findViewById(R.id.btn_Register);
-        txt_UserName = (EditText) findViewById(R.id.txt_NameUser);
+        txt_UserName = (EditText) findViewById(R.id.txt_UserName);
         txt_Email = (EditText) findViewById(R.id.txt_Email);
         txt_Name = (EditText) findViewById(R.id.txt_Name);
         txt_Adress = (EditText) findViewById(R.id.txt_Adress) ;
