@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/background_light"
+    tools:context="com.example.jose.actividad_firebase.NewAcc_Activity">
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@android:color/background_light"
+        app:srcCompat="@drawable/servipop" />
+
+    <TextView
+        android:id="@+id/textView2"
+        style="@android:style/Widget.DeviceDefault.Light.TextView.SpinnerItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:text="¡ Nuevo Usuario !"
+        android:textColor="@color/colorPrimary"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btn_Register"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/txt_Email"
+        android:layout_below="@+id/txt_Adress"
+        android:layout_marginTop="35dp"
+        android:background="#FF48C15E"
+        android:text="REGISTRAR"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btn_Cancel_Register"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/btn_Register"
+        android:layout_marginLeft="30dp"
+        android:background="#FF48C15E"
+        android:layout_toRightOf="@+id/btn_Register"
+        android:text="CANCELAR"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/txt_NameUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="false"
+        android:layout_marginLeft="55dp"
+        android:layout_marginTop="150dp"
+        android:ems="10"
+        android:hint="Nombre de Usuario"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/txt_Email"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/txt_NameUser"
+        android:layout_below="@+id/txt_NameUser"
+        android:layout_marginTop="30dp"
+        android:ems="10"
+        android:hint="Correo Electronico"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/txt_Name"
+        android:layout_width="275dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/txt_Email"
+        android:layout_below="@+id/txt_Email"
+        android:layout_marginTop="40dp"
+        android:ems="10"
+        android:hint="Nombre y Apellidos"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/txt_Adress"
+        android:layout_width="275dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/txt_Name"
+        android:layout_below="@+id/txt_Name"
+        android:layout_centerHorizontal="false"
+        android:layout_centerVertical="false"
+        android:layout_marginTop="40dp"
+        android:ems="10"
+        android:hint="Direccion"
+        android:inputType="textPersonName" />
+</RelativeLayout>
