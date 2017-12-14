@@ -48,7 +48,7 @@ public class Login_Activity extends AppCompatActivity {
     }
 
     private boolean test_BBDD_Data(){
-        boolean correct_BBDD_Data = true;
+        boolean correct_BBDD_Data = false;
 
         return correct_BBDD_Data;
     }

@@ -50,5 +50,5 @@
         android:ems="10"
         android:gravity="center"
         android:hint="Contraseña"
-        android:inputType="textPersonName" />
+        android:inputType="textPassword" />
 </RelativeLayout>
