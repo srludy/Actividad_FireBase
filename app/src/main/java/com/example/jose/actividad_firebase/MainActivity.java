@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -62,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
             case NEWACC_ACTIVITY_CODE:
                 switch (resultCode){
                     case RESULT_OK:
+                        Toast.makeText(getApplicationContext(),"¡ Registro De Usuario Completado !",Toast.LENGTH_LONG).show();
                         break;
                     case RESULT_CANCELED:
                         break;

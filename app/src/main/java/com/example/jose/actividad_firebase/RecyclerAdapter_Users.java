@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.jose.actividad_firebase.Model.User;
+
 import java.util.ArrayList;
 
 /**

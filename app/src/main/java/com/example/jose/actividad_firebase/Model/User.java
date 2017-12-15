@@ -1,32 +1,21 @@
-package com.example.jose.actividad_firebase;
+package com.example.jose.actividad_firebase.Model;
 
 /**
  * Created by Jose on 14/12/2017.
  */
 
 public class User {
-    int id;
+
     String userName;
     String email;
     String name;
     String adress;
-    String type;
 
-    public User(int id, String userName, String email, String name, String adress, String type) {
-        this.id = id;
+    public User(String userName, String email, String name, String adress) {
         this.userName = userName;
         this.email = email;
         this.name = name;
         this.adress = adress;
-        this.type = type;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getUserName() {
@@ -61,11 +50,4 @@ public class User {
         this.adress = adress;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
 }

@@ -7,11 +7,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.jose.actividad_firebase.Model.User;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class NewAcc_Activity extends AppCompatActivity {
 
     //Views
     Button btn_Register, btn_Cancel;
     EditText txt_UserName, txt_Email, txt_Name, txt_Adress;
+
+    //BBDD
+    DatabaseReference BBDD;
 
 
     @Override
@@ -27,6 +34,8 @@ public class NewAcc_Activity extends AppCompatActivity {
         txt_Email = (EditText) findViewById(R.id.txt_Email);
         txt_Name = (EditText) findViewById(R.id.txt_Name);
         txt_Adress = (EditText) findViewById(R.id.txt_Adress) ;
+
+        BBDD = FirebaseDatabase.getInstance().getReference("users");
 
 
         //Listeners
@@ -47,13 +56,18 @@ public class NewAcc_Activity extends AppCompatActivity {
                 if(data_Test){
                     if(available_UserName){
 
+                        User u = new User(txt_UserName.getText().toString(),txt_Email.getText().toString(),txt_Name.getText().toString(),txt_Adress.getText().toString());
+                        String key = BBDD.push().getKey();
+                        BBDD.child(key).setValue(u);
+                        setResult(RESULT_OK, getIntent());
+                        finish();
+
                     }else{
                         Toast.makeText(getApplicationContext(),"¡ El Nombre De Usuario Ya Esta Utilizado, Porfavor Elija Otro !", Toast.LENGTH_LONG).show();
                     }
                 }else{
                     Toast.makeText(getApplicationContext(),"¡ Rellena Todos los Campos Correctamente !", Toast.LENGTH_LONG).show();
                 }
-             //   setResult(RESULT_OK, getIntent());
             }
         });
     }
@@ -66,7 +80,7 @@ public class NewAcc_Activity extends AppCompatActivity {
         return data_Test;
     }
     private boolean test_UserName(){
-        boolean available_UserName = false;
+        boolean available_UserName = true;
 
 
      return available_UserName;
