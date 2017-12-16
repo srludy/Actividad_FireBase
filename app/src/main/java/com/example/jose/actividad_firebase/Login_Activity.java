@@ -7,11 +7,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class Login_Activity extends AppCompatActivity {
+
+    //Classes
+    private FirebaseAuth mAuth;
 
     //Views
     Button btn_GoIn;
-    EditText txt_UserName, txt_Pass;
+    EditText txt_Email, txt_Pass;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +29,8 @@ public class Login_Activity extends AppCompatActivity {
         //Initiations
         btn_GoIn = (Button) findViewById(R.id.btn_GoIn);
         txt_Pass = (EditText) findViewById(R.id.txt_Pass);
-        txt_UserName = (EditText) findViewById(R.id.txt_User);
+        txt_Email = (EditText) findViewById(R.id.txt_UserEmail);
+        mAuth = FirebaseAuth.getInstance();
 
 
 
@@ -54,7 +62,7 @@ public class Login_Activity extends AppCompatActivity {
     }
     private boolean test_Editext_Data() {
         boolean correctData = true;
-        if(txt_Pass.getText().toString().isEmpty() || txt_UserName.getText().toString().isEmpty()){
+        if(txt_Pass.getText().toString().isEmpty() || txt_Email.getText().toString().isEmpty()){
             correctData = false;
         }
         return correctData;

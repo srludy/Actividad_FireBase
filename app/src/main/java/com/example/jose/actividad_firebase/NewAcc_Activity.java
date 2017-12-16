@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.jose.actividad_firebase.Model.User;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -20,7 +21,7 @@ public class NewAcc_Activity extends AppCompatActivity {
 
     //Views
     Button btn_Register, btn_Cancel;
-    EditText txt_UserName, txt_Email, txt_Name, txt_Adress;
+    EditText txt_UserName, txt_Email, txt_Name, txt_Adress, txt_Pass;
 
     //BBDD
     DatabaseReference BBDD;
@@ -39,9 +40,9 @@ public class NewAcc_Activity extends AppCompatActivity {
         txt_Email = (EditText) findViewById(R.id.txt_Email);
         txt_Name = (EditText) findViewById(R.id.txt_Name);
         txt_Adress = (EditText) findViewById(R.id.txt_Adress) ;
+        txt_Pass = (EditText) findViewById(R.id.txt_newUserPass);
 
         BBDD = FirebaseDatabase.getInstance().getReference("users");
-
 
         //Listeners
         btn_Cancel.setOnClickListener(new View.OnClickListener() {
@@ -79,7 +80,7 @@ public class NewAcc_Activity extends AppCompatActivity {
 
     private boolean test_EdiText_Data(){
         boolean data_Test = true;
-        if(txt_Adress.getText().toString().isEmpty() || txt_Name.getText().toString().isEmpty() || txt_UserName.getText().toString().isEmpty() || txt_Email.getText().toString().isEmpty()) {
+        if(txt_Adress.getText().toString().isEmpty() || txt_Name.getText().toString().isEmpty() || txt_UserName.getText().toString().isEmpty() || txt_Email.getText().toString().isEmpty() || txt_Pass.getText().toString().isEmpty()) {
             data_Test = false;
         }
         return data_Test;
@@ -88,21 +89,11 @@ public class NewAcc_Activity extends AppCompatActivity {
         boolean available_UserName = false;
         boolean exist = false;
 
-        BBDD.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-               for(DataSnapshot dataSnapshot1: dataSnapshot.getChildren()){
-                 //  User user = dataSnapshot1.getValue(User)
-               }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-
+//        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
+//        reference = reference.child("userName");
+//        if (reference != null) {
+//            boolean exists = reference.equals("srludy");
+//        }
 
 
      return available_UserName;
