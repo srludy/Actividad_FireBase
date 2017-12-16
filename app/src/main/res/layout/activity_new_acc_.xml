@@ -31,9 +31,12 @@
     <ScrollView
         android:id="@+id/Scrol_NCC"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="300dp"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/textView2">
+        android:layout_below="@+id/textView2"
+        android:fadeScrollbars="false"
+        android:scrollbarThumbVertical="@drawable/scroll"
+        android:background="@drawable/borderacc">
 
         <RelativeLayout
             android:layout_width="match_parent"
