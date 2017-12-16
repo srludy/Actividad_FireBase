@@ -86,14 +86,7 @@ public class NewAcc_Activity extends AppCompatActivity {
         return data_Test;
     }
     private boolean test_UserName(){
-        boolean available_UserName = false;
-        boolean exist = false;
-
-//        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
-//        reference = reference.child("userName");
-//        if (reference != null) {
-//            boolean exists = reference.equals("srludy");
-//        }
+        boolean available_UserName = true;
 
 
      return available_UserName;
