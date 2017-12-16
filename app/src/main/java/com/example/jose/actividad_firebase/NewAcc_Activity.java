@@ -26,6 +26,9 @@ public class NewAcc_Activity extends AppCompatActivity {
     //BBDD
     DatabaseReference BBDD;
 
+    //Variable
+    boolean available_userName;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +45,8 @@ public class NewAcc_Activity extends AppCompatActivity {
         txt_Adress = (EditText) findViewById(R.id.txt_Adress) ;
         txt_Pass = (EditText) findViewById(R.id.txt_newUserPass);
 
+        available_userName = true;
+
         BBDD = FirebaseDatabase.getInstance().getReference("users");
 
         //Listeners
@@ -57,10 +62,10 @@ public class NewAcc_Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 boolean data_Test = test_EdiText_Data();
-                boolean available_UserName = test_UserName();
+                test_UserName();
 
                 if(data_Test){
-                    if(available_UserName){
+                    if(available_userName){
 
                         User u = new User(txt_UserName.getText().toString(),txt_Email.getText().toString(),txt_Name.getText().toString(),txt_Adress.getText().toString());
                         String key = BBDD.push().getKey();
@@ -85,10 +90,9 @@ public class NewAcc_Activity extends AppCompatActivity {
         }
         return data_Test;
     }
-    private boolean test_UserName(){
-        boolean available_UserName = true;
+    private void test_UserName(){
 
 
-     return available_UserName;
+
     }
 }
