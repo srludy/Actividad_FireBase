@@ -8,8 +8,13 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.jose.actividad_firebase.Model.User;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class NewAcc_Activity extends AppCompatActivity {
 
@@ -80,7 +85,24 @@ public class NewAcc_Activity extends AppCompatActivity {
         return data_Test;
     }
     private boolean test_UserName(){
-        boolean available_UserName = true;
+        boolean available_UserName = false;
+        boolean exist = false;
+
+        BBDD.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+               for(DataSnapshot dataSnapshot1: dataSnapshot.getChildren()){
+                 //  User user = dataSnapshot1.getValue(User)
+               }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
 
 
      return available_UserName;

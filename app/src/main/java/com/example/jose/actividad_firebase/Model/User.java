@@ -11,6 +11,9 @@ public class User {
     String name;
     String adress;
 
+    public User() {
+    }
+
     public User(String userName, String email, String name, String adress) {
         this.userName = userName;
         this.email = email;
