@@ -13,6 +13,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class NewAcc_Activity extends AppCompatActivity {
 
     //Variable
     boolean available_userName;
+    boolean available_email;
 
 
     @Override
@@ -45,7 +47,7 @@ public class NewAcc_Activity extends AppCompatActivity {
         txt_Adress = (EditText) findViewById(R.id.txt_Adress) ;
         txt_Pass = (EditText) findViewById(R.id.txt_newUserPass);
 
-        available_userName = true;
+
 
         BBDD = FirebaseDatabase.getInstance().getReference("users");
 
@@ -62,20 +64,9 @@ public class NewAcc_Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 boolean data_Test = test_EdiText_Data();
-                test_UserName();
 
                 if(data_Test){
-                    if(available_userName){
-
-                        User u = new User(txt_UserName.getText().toString(),txt_Email.getText().toString(),txt_Name.getText().toString(),txt_Adress.getText().toString());
-                        String key = BBDD.push().getKey();
-                        BBDD.child(key).setValue(u);
-                        setResult(RESULT_OK, getIntent());
-                        finish();
-
-                    }else{
-                        Toast.makeText(getApplicationContext(),"¡ El Nombre De Usuario Ya Esta Utilizado, Porfavor Elija Otro !", Toast.LENGTH_LONG).show();
-                    }
+                    test_UserNameAndEmail();
                 }else{
                     Toast.makeText(getApplicationContext(),"¡ Rellena Todos los Campos Correctamente !", Toast.LENGTH_LONG).show();
                 }
@@ -90,8 +81,51 @@ public class NewAcc_Activity extends AppCompatActivity {
         }
         return data_Test;
     }
-    private void test_UserName(){
 
+    private void test_UserNameAndEmail(){
+
+        Query q = BBDD.orderByChild("userName").equalTo(txt_UserName.getText().toString());
+        q.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getChildrenCount() > 0){
+                    available_userName = false;
+                    //set Text View UserName Used
+                }else{
+                    available_userName = true;
+                }
+                Query q2 = BBDD.orderByChild("email").equalTo(txt_Email.getText().toString());
+                q2.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.getChildrenCount() > 0){
+                            available_email = false;
+                        }else{
+                            available_email = true;
+                        }
+
+                        if(available_email && available_userName) {
+                            User u = new User(txt_UserName.getText().toString(), txt_Email.getText().toString(), txt_Name.getText().toString(), txt_Adress.getText().toString());
+                            String key = BBDD.push().getKey();
+                            BBDD.child(key).setValue(u);
+                            setResult(RESULT_OK, getIntent());
+                            finish();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
 
     }
