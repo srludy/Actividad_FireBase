@@ -1,10 +1,13 @@
 package com.example.jose.actividad_firebase;
 
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.jose.actividad_firebase.Model.User;
@@ -23,6 +26,7 @@ public class NewAcc_Activity extends AppCompatActivity {
     //Views
     Button btn_Register, btn_Cancel;
     EditText txt_UserName, txt_Email, txt_Name, txt_Adress, txt_Pass;
+    TextView userName_used, email_used;
 
     //BBDD
     DatabaseReference BBDD;
@@ -46,12 +50,32 @@ public class NewAcc_Activity extends AppCompatActivity {
         txt_Name = (EditText) findViewById(R.id.txt_Name);
         txt_Adress = (EditText) findViewById(R.id.txt_Adress) ;
         txt_Pass = (EditText) findViewById(R.id.txt_newUserPass);
-
-
+        userName_used = (TextView) findViewById(R.id.invalid_userName);
+        email_used = (TextView) findViewById(R.id.invalid_email);
 
         BBDD = FirebaseDatabase.getInstance().getReference("users");
 
+        userName_used.setVisibility(View.INVISIBLE);
+        email_used.setVisibility(View.INVISIBLE);
+
         //Listeners
+
+        txt_UserName.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                txt_UserName.setTextColor(Color.parseColor("#FF141614"));
+                userName_used.setVisibility(View.INVISIBLE);
+                return false;
+            }
+        });
+        txt_Email.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                txt_Email.setTextColor(Color.parseColor("#FF141614"));
+                email_used.setVisibility(View.INVISIBLE);
+                return false;
+            }
+        });
         btn_Cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,7 +88,6 @@ public class NewAcc_Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 boolean data_Test = test_EdiText_Data();
-
                 if(data_Test){
                     test_UserNameAndEmail();
                 }else{
@@ -90,7 +113,8 @@ public class NewAcc_Activity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getChildrenCount() > 0){
                     available_userName = false;
-                    //set Text View UserName Used
+                    userName_used.setVisibility(View.VISIBLE);
+                    txt_UserName.setTextColor(Color.parseColor("#FFCA1D09"));
                 }else{
                     available_userName = true;
                 }
@@ -100,6 +124,8 @@ public class NewAcc_Activity extends AppCompatActivity {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if(dataSnapshot.getChildrenCount() > 0){
                             available_email = false;
+                            email_used.setVisibility(View.VISIBLE);
+                            txt_Email.setTextColor(Color.parseColor("#FFCA1D09"));
                         }else{
                             available_email = true;
                         }
@@ -110,7 +136,10 @@ public class NewAcc_Activity extends AppCompatActivity {
                             BBDD.child(key).setValue(u);
                             setResult(RESULT_OK, getIntent());
                             finish();
+                        }else{
+                            Toast.makeText(getApplicationContext(),"Error, Hay campos incorrectos",Toast.LENGTH_LONG).show();
                         }
+
                     }
 
                     @Override

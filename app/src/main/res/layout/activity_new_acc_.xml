@@ -45,6 +45,28 @@
 
             >
 
+            <TextView
+                android:id="@+id/invalid_userName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/txt_UserName"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/txt_UserName"
+                android:text="Ya en Uso"
+                android:textColor="@android:color/holo_red_dark"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/invalid_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/txt_Email"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/txt_Email"
+                android:text="Ya en Uso"
+                android:textColor="@android:color/holo_red_dark"
+                android:textStyle="bold" />
+
             <EditText
                 android:id="@+id/txt_newUserPass"
                 android:layout_width="wrap_content"
@@ -61,7 +83,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="false"
-                android:layout_marginLeft="50dp"
+                android:layout_marginLeft="30dp"
                 android:layout_marginTop="20dp"
                 android:ems="10"
                 android:hint="Nombre de Usuario"
