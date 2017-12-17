@@ -1,6 +1,7 @@
 package com.example.jose.actividad_firebase;
 
 import android.graphics.Color;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -11,7 +12,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.jose.actividad_firebase.Model.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,6 +35,7 @@ public class NewAcc_Activity extends AppCompatActivity {
 
     //BBDD
     DatabaseReference BBDD;
+    FirebaseAuth firebaseAuth;
 
     //Variable
     boolean available_userName;
@@ -53,6 +59,7 @@ public class NewAcc_Activity extends AppCompatActivity {
         userName_used = (TextView) findViewById(R.id.invalid_userName);
         email_used = (TextView) findViewById(R.id.invalid_email);
 
+        firebaseAuth = FirebaseAuth.getInstance();
         BBDD = FirebaseDatabase.getInstance().getReference("users");
 
         userName_used.setVisibility(View.INVISIBLE);
@@ -118,6 +125,7 @@ public class NewAcc_Activity extends AppCompatActivity {
                 }else{
                     available_userName = true;
                 }
+
                 Query q2 = BBDD.orderByChild("email").equalTo(txt_Email.getText().toString());
                 q2.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -131,31 +139,44 @@ public class NewAcc_Activity extends AppCompatActivity {
                         }
 
                         if(available_email && available_userName) {
-                            User u = new User(txt_UserName.getText().toString(), txt_Email.getText().toString(), txt_Name.getText().toString(), txt_Adress.getText().toString());
-                            String key = BBDD.push().getKey();
-                            BBDD.child(key).setValue(u);
-                            setResult(RESULT_OK, getIntent());
-                            finish();
+                            addUserToDataBase();
+                            addAuthUser();
+                            //setResult(RESULT_OK, getIntent());
+                            //finish();
                         }else{
                             Toast.makeText(getApplicationContext(),"Error, Hay campos incorrectos",Toast.LENGTH_LONG).show();
                         }
-
                     }
-
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-
                     }
                 });
-
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
         });
-
-
+    }
+    private void addUserToDataBase(){
+        User u = new User(txt_UserName.getText().toString(), txt_Email.getText().toString(), txt_Name.getText().toString(), txt_Adress.getText().toString());
+        String key = BBDD.push().getKey();
+        BBDD.child(key).setValue(u);
+    }
+    private void addAuthUser(){
+        firebaseAuth.createUserWithEmailAndPassword(txt_Email.getText().toString(), txt_Pass.getText().toString())
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            FirebaseUser user = firebaseAuth.getCurrentUser();
+                            Toast.makeText(getApplication(), "Authentication Successful.",
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getApplication(), "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 }
