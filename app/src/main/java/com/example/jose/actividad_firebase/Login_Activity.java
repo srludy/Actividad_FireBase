@@ -48,7 +48,6 @@ public class Login_Activity extends AppCompatActivity {
                 boolean correct_EdiText_Data = test_Editext_Data();
                 if(correct_EdiText_Data){
                     test_auth_user();
-
                 }else{
                     Toast.makeText(getApplicationContext(),"¡ Rellena Todos los campos Correctamente !", Toast.LENGTH_SHORT).show();
                 }
@@ -65,6 +64,9 @@ public class Login_Activity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             FirebaseUser user = firebaseAuth.getCurrentUser();
+                            getIntent().putExtra("userUID",user.getUid());
+                            setResult(RESULT_OK,getIntent());
+                            finish();
                         } else {
                             Toast.makeText(getApplicationContext(), "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();

@@ -8,6 +8,15 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Spinner;
+import android.widget.Toast;
+
+import com.example.jose.actividad_firebase.Model.User;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class User_Main_Activity extends AppCompatActivity {
 
@@ -15,30 +24,50 @@ public class User_Main_Activity extends AppCompatActivity {
     Button btn_addItem;
     CheckBox checkBox_MyItems;
     Spinner categorySpinner;
+    //BBDD
+    DatabaseReference BBDD;
+    String userUID ;
+
+    //class
+    User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user__main_);
-
+        getSupportActionBar().setTitle("Servipop");
 
         //Initiations
         btn_addItem = (Button) findViewById(R.id.btnAddItem);
         checkBox_MyItems = (CheckBox) findViewById(R.id.checkBoxMyItems);
         categorySpinner = (Spinner) findViewById(R.id.categorySpinner);
+        userUID = getIntent().getExtras().getString("userUID");
+
+        BBDD = FirebaseDatabase.getInstance().getReference("users/"+userUID);
 
         //spinner inflate
-/*
         String[] arraySpinner = new String[] {
-                "1", "2", "3", "4", "5"
+                "Todo", "Tecnologia", "Coches", "Hogar"
         };
         ArrayAdapter<String> adapter = new ArrayAdapter(this,
                 android.R.layout.simple_spinner_item, arraySpinner);
-        s.setAdapter(adapter);
+        categorySpinner.setAdapter(adapter);
 
-*/
+
 
         //Listeners
+        BBDD.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                currentUser = dataSnapshot.getValue(User.class);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
         btn_addItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
