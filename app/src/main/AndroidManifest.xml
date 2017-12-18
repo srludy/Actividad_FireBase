@@ -22,7 +22,8 @@
         <activity
             android:name=".NewAcc_Activity"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".Admin_Main_Activity"></activity>
+        <activity android:name=".Admin_Main_Activity" />
+        <activity android:name=".User_Main_Activity"></activity>
     </application>
 
 </manifest>

@@ -59,7 +59,6 @@ public class NewAcc_Activity extends AppCompatActivity {
         userName_used = (TextView) findViewById(R.id.invalid_userName);
         email_used = (TextView) findViewById(R.id.invalid_email);
 
-        firebaseAuth = FirebaseAuth.getInstance();
         BBDD = FirebaseDatabase.getInstance().getReference("users");
 
         userName_used.setVisibility(View.INVISIBLE);
@@ -139,7 +138,7 @@ public class NewAcc_Activity extends AppCompatActivity {
                         }
 
                         if(available_email && available_userName) {
-                            addUserToDataBase();
+                           // addUserToDataBase();
                             addAuthUser();
                             //setResult(RESULT_OK, getIntent());
                             //finish();
@@ -164,8 +163,10 @@ public class NewAcc_Activity extends AppCompatActivity {
         BBDD.child(key).setValue(u);
     }
     private void addAuthUser(){
+        firebaseAuth = FirebaseAuth.getInstance();
+
         firebaseAuth.createUserWithEmailAndPassword(txt_Email.getText().toString(), txt_Pass.getText().toString())
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener(NewAcc_Activity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
