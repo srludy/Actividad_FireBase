@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.jose.actividad_firebase.Model.User;
@@ -24,6 +25,7 @@ public class User_Main_Activity extends AppCompatActivity {
     Button btn_addItem;
     CheckBox checkBox_MyItems;
     Spinner categorySpinner;
+    TextView userNameTitle;
     //BBDD
     DatabaseReference BBDD;
     String userUID ;
@@ -42,7 +44,7 @@ public class User_Main_Activity extends AppCompatActivity {
         checkBox_MyItems = (CheckBox) findViewById(R.id.checkBoxMyItems);
         categorySpinner = (Spinner) findViewById(R.id.categorySpinner);
         userUID = getIntent().getExtras().getString("userUID");
-
+        userNameTitle = (TextView) findViewById(R.id.userNameTitle);
         BBDD = FirebaseDatabase.getInstance().getReference("users/"+userUID);
 
         //spinner inflate
@@ -54,12 +56,12 @@ public class User_Main_Activity extends AppCompatActivity {
         categorySpinner.setAdapter(adapter);
 
 
-
         //Listeners
         BBDD.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 currentUser = dataSnapshot.getValue(User.class);
+                userNameTitle.setText(currentUser.getUserName());
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -95,6 +97,8 @@ public class User_Main_Activity extends AppCompatActivity {
 
             }
         });
+
+
 
 
 
