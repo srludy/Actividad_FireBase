@@ -138,7 +138,6 @@ public class NewAcc_Activity extends AppCompatActivity {
                         }
 
                         if(available_email && available_userName) {
-                           // addUserToDataBase();
                             addAuthUser();
                             //setResult(RESULT_OK, getIntent());
                             //finish();
@@ -157,15 +156,15 @@ public class NewAcc_Activity extends AppCompatActivity {
             }
         });
     }
-    private void addUserToDataBase(){
+    private void addUserToDataBase(String key){
         User u = new User(txt_UserName.getText().toString(), txt_Email.getText().toString(), txt_Name.getText().toString(), txt_Adress.getText().toString());
-        String key = BBDD.push().getKey();
         BBDD.child(key).setValue(u);
     }
     private void addAuthUser(){
         firebaseAuth = FirebaseAuth.getInstance();
+        Toast.makeText(getApplicationContext(),"Abans de create",Toast.LENGTH_LONG).show();
 
-        firebaseAuth.createUserWithEmailAndPassword(txt_Email.getText().toString(), txt_Pass.getText().toString())
+        firebaseAuth.createUserWithEmailAndPassword("manolo@gmail.com", "aaaaaa")
                 .addOnCompleteListener(NewAcc_Activity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -173,11 +172,15 @@ public class NewAcc_Activity extends AppCompatActivity {
                             FirebaseUser user = firebaseAuth.getCurrentUser();
                             Toast.makeText(getApplication(), "Authentication Successful.",
                                     Toast.LENGTH_SHORT).show();
+
+                            addUserToDataBase(user.getUid());
+
                         } else {
-                            Toast.makeText(getApplication(), "Authentication failed.",
+                            Toast.makeText(getApplication(), "Authentication failed. "+task.getException(),
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
+
     }
 }
