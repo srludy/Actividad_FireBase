@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     tools:context="com.example.jose.actividad_firebase.User_Main_Activity">
 
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="92dp"
+        android:text="¿Que Buscas?"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textSize="13sp"
+        android:textStyle="italic" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_userItems"
         android:layout_width="match_parent"
@@ -17,11 +28,35 @@
         android:background="@drawable/borderacc"/>
 
     <Spinner
-        android:id="@+id/spinner2"
+        android:id="@+id/categorySpinner"
+        style="@style/Widget.AppCompat.Light.Spinner.DropDown.ActionBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignEnd="@+id/recycler_userItems"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/recycler_userItems"
-        android:layout_marginTop="101dp" />
+        android:layout_marginTop="110dp"
+        android:backgroundTint="@color/colorAccent" />
+
+    <CheckBox
+        android:id="@+id/checkBoxMyItems"
+        style="@android:style/Widget.DeviceDefault.Light.CompoundButton.CheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/textView3"
+        android:layout_alignStart="@+id/categorySpinner"
+        android:layout_marginBottom="24dp"
+        android:text="Ver Solo Mis Items" />
+
+    <Button
+        android:id="@+id/btnAddItem"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="305dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/circlebuttone"
+        android:text="+"
+        android:textColor="@color/common_google_signin_btn_text_dark_default"
+        android:textColorLink="@color/cardview_light_background"
+        android:textSize="36sp" />
 </RelativeLayout>
