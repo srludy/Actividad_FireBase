@@ -138,9 +138,7 @@ public class NewAcc_Activity extends AppCompatActivity {
                         }
 
                         if(available_email && available_userName) {
-                            addAuthUser();
-                            //setResult(RESULT_OK, getIntent());
-                            //finish();
+                            addUser();
                         }else{
                             Toast.makeText(getApplicationContext(),"Error, Hay campos incorrectos",Toast.LENGTH_LONG).show();
                         }
@@ -160,20 +158,18 @@ public class NewAcc_Activity extends AppCompatActivity {
         User u = new User(txt_UserName.getText().toString(), txt_Email.getText().toString(), txt_Name.getText().toString(), txt_Adress.getText().toString());
         BBDD.child(key).setValue(u);
     }
-    private void addAuthUser(){
+    private void addUser(){
         firebaseAuth = FirebaseAuth.getInstance();
-        Toast.makeText(getApplicationContext(),"Abans de create",Toast.LENGTH_LONG).show();
-
-        firebaseAuth.createUserWithEmailAndPassword("manolo@gmail.com", "aaaaaa")
+        firebaseAuth.createUserWithEmailAndPassword(txt_Email.getText().toString(), txt_Pass.getText().toString())
                 .addOnCompleteListener(NewAcc_Activity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             FirebaseUser user = firebaseAuth.getCurrentUser();
-                            Toast.makeText(getApplication(), "Authentication Successful.",
-                                    Toast.LENGTH_SHORT).show();
-
                             addUserToDataBase(user.getUid());
+                            getIntent().putExtra("userUID",user.getUid());
+                            setResult(RESULT_OK,getIntent());
+                            finish();
 
                         } else {
                             Toast.makeText(getApplication(), "Authentication failed. "+task.getException(),
