@@ -7,15 +7,25 @@ public class Item {
     String description;
     String category;
     String price;
+    String userUID;
 
-    public Item(String name, String description, String category, String price) {
+    public Item(String name, String description, String category, String price, String userUID) {
         this.name = name;
         this.description = description;
         this.category = category;
         this.price = price;
+        this.userUID = userUID;
     }
     public Item(){
 
+    }
+
+    public String getUserUID() {
+        return userUID;
+    }
+
+    public void setUserUID(String userUID) {
+        this.userUID = userUID;
     }
 
     public String getName() {

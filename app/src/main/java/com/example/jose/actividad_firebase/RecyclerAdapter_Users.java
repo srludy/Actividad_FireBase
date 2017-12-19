@@ -31,8 +31,8 @@ public class RecyclerAdapter_Users extends RecyclerView.Adapter<RecyclerAdapter_
 
         public ViewHolder(View itemView) {
             super(itemView);
-            userName = (TextView) itemView.findViewById(R.id.CV_UserName);
-            email = (TextView)itemView.findViewById(R.id.CV_UserEmail);
+            userName = (TextView) itemView.findViewById(R.id.CV_ItemName);
+            email = (TextView)itemView.findViewById(R.id.CV_ItemDescription);
             name = (TextView) itemView.findViewById(R.id.CV_Name);
             adress = (TextView) itemView.findViewById(R.id.CV_UserAdress);
         }
@@ -58,7 +58,12 @@ public class RecyclerAdapter_Users extends RecyclerView.Adapter<RecyclerAdapter_
     }
 
     @Override
-    public int getItemCount() {
-        return users.size();
+    public int getItemCount()
+    {
+        if(users.isEmpty()){
+            return 0;
+        }else{
+            return users.size();
+        }
     }
 }

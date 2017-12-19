@@ -7,7 +7,7 @@
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="140dp"
+        android:layout_height="200dp"
         card_view:cardCornerRadius="6dp"
         card_view:cardElevation="10dp"
         card_view:cardUseCompatPadding="true">
@@ -15,25 +15,25 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="?android:attr/colorPrimaryDark">
+            android:background="#FFCCF9BE">
 
             <TextView
-                android:id="@+id/CV_Name"
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignBottom="@+id/CV_ItemName"
+                android:background="@android:color/white" />
+
+            <TextView
+                android:id="@+id/CV_ItemPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@+id/CV_ItemName"
-                android:layout_marginLeft="150dp"
-                android:text="Jose Vicente Mari Camarasa"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="3dp"
+                android:layout_marginTop="5dp"
+                android:text="2000 Euros"
                 android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/CV_UserAdress"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/CV_ItemDescription"
-                android:layout_below="@+id/CV_ItemDescription"
-                android:layout_marginTop="10dp"
-                android:text="C:/ San Bartolome 19" />
 
             <TextView
                 android:id="@+id/CV_ItemDescription"
@@ -42,15 +42,15 @@
                 android:layout_alignStart="@+id/CV_ItemName"
                 android:layout_below="@+id/CV_ItemName"
                 android:layout_marginTop="10dp"
-                android:text="jvt_92@hotmail.com" />
+                android:text="Ford Focus  2000 km, modelo 2015" />
 
             <TextView
                 android:id="@+id/CV_ItemName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:text="Srludy"
+                android:layout_marginTop="5dp"
+                android:text="Ford Focus"
                 android:textStyle="bold" />
         </RelativeLayout>
     </android.support.v7.widget.CardView>
