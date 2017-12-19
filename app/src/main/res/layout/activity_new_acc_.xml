@@ -76,6 +76,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/txt_Adress"
                 android:layout_below="@+id/txt_Adress"
+                android:layout_marginBottom="20dp"
                 android:layout_marginTop="40dp"
                 android:ems="10"
                 android:hint="Contraseña"
