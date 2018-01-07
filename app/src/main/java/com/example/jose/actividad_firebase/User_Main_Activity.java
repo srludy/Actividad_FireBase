@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,6 +52,7 @@ public class User_Main_Activity extends AppCompatActivity {
 
     //ArrayList
     ArrayList<Item> items;
+    ArrayList <Item> filteredItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +61,7 @@ public class User_Main_Activity extends AppCompatActivity {
         getSupportActionBar().setTitle("Servipop");
 
         //Initiations
+
         btn_addItem = (Button) findViewById(R.id.btnAddItem);
         checkBox_MyItems = (CheckBox) findViewById(R.id.checkBoxMyItems);
         categorySpinner = (Spinner) findViewById(R.id.categorySpinner);
@@ -68,6 +71,8 @@ public class User_Main_Activity extends AppCompatActivity {
         allItems = FirebaseDatabase.getInstance().getReference("items");
         recyclerView = (RecyclerView) findViewById(R.id.recycler_userItems);
         items = new ArrayList();
+        filteredItems = new ArrayList();
+        inflateRecyclerView();
 
 
 
@@ -81,22 +86,8 @@ public class User_Main_Activity extends AppCompatActivity {
 
 
         //Listeners
-        allItems.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                items = new ArrayList();
-                for(DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){
-                    Item item = dataSnapshot1.getValue(Item.class);
-                    items.add(item);
-                }
-              inflateRecyclerView();
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
         userReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -117,7 +108,6 @@ public class User_Main_Activity extends AppCompatActivity {
                 i.putExtra("userUID", userUID);
                 startActivityForResult(i,ADD_ITEM_ACTIVITY);
 
-
             }
         });
 
@@ -125,16 +115,20 @@ public class User_Main_Activity extends AppCompatActivity {
         checkBox_MyItems.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(checkBox_MyItems.isChecked()){
-                    ArrayList<Item> userItems = new ArrayList();
-                    for (int i = 0 ; i < items.size() ; i++){
-                        if(items.get(i).getUserUID().equals(userUID)) {
-                            userItems.add(items.get(i));
-                        }
-                    }
-                    updateAdapter(userItems);
+                if(categorySpinner.getSelectedItemPosition() != 0){
+                    categorySpinner.setSelection(0);
                 }else{
-                    updateAdapter(items);
+                    if(checkBox_MyItems.isChecked()){
+                        ArrayList<Item> userItems = new ArrayList();
+                        for (int i = 0 ; i < items.size() ; i++){
+                            if(items.get(i).getUserUID().equals(userUID)) {
+                                userItems.add(items.get(i));
+                            }
+                        }
+                        updateAdapter(userItems);
+                    }else{
+                        updateAdapter(items);
+                    }
                 }
             }
         });
@@ -143,7 +137,65 @@ public class User_Main_Activity extends AppCompatActivity {
         categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (categorySpinner.getItemAtPosition(position).toString()){
 
+                    case "Todo":
+                        allItems.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                items.clear();
+                                for(DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                                    Item item = dataSnapshot1.getValue(Item.class);
+                                    items.add(item);
+                                }
+                                if(checkBox_MyItems.isChecked()){
+                                    ArrayList<Item> userItems = new ArrayList();
+                                    for (int i = 0 ; i < items.size() ; i++){
+                                        if(items.get(i).getUserUID().equals(userUID)) {
+                                            userItems.add(items.get(i));
+                                        }
+                                    }
+                                    updateAdapter(userItems);
+                                }else{
+                                    updateAdapter(items);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+                        break;
+
+                    case "Coches":
+                        for (int i = 0 ; i < items.size() ; i++){
+                            if(items.get(i).getCategory().equals("Coches")){
+                                filteredItems.add(items.get(i));
+                            }
+                        }
+                        updateAdapter(filteredItems);
+                        break;
+
+                    case "Hogar":
+                        for (int i = 0 ; i < items.size() ; i++){
+                            if(items.get(i).getCategory().equals("Hogar")){
+                                filteredItems.add(items.get(i));
+                            }
+                        }
+                        updateAdapter(filteredItems);
+                        break;
+
+                    case "Tecnologia":
+                        for (int i = 0 ; i < items.size() ; i++){
+                            if(items.get(i).getCategory().equals("Tecnologia")){
+                                filteredItems.add(items.get(i));
+                            }
+                        }
+                        updateAdapter(filteredItems);
+                        break;
+                }
             }
 
             @Override
@@ -153,6 +205,57 @@ public class User_Main_Activity extends AppCompatActivity {
         });
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case ADD_ITEM_ACTIVITY:
+                switch (resultCode){
+                    case RESULT_OK:
+                        if(categorySpinner.getSelectedItemPosition() != 0){
+                            categorySpinner.setSelection(0);
+                        }else{
+                            items.clear();
+                            allItems.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    for(DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                                        Item item = dataSnapshot1.getValue(Item.class);
+                                        items.add(item);
+                                    }
+                                    if(checkBox_MyItems.isChecked()){
+                                        ArrayList<Item> userItems = new ArrayList();
+                                        for (int i = 0 ; i < items.size() ; i++){
+                                            if(items.get(i).getUserUID().equals(userUID)) {
+                                                userItems.add(items.get(i));
+                                            }
+                                        }
+                                        updateAdapter(userItems);
+                                    }else{
+                                        updateAdapter(items);
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+                        }
+
+                        break;
+                    case RESULT_CANCELED:
+
+                        break;
+                }
+            break;
+        }
+    }
+
+    private void userItemsFiltered(){
+
+    }
 
     private void inflateRecyclerView(){
         linearLayoutManager = new LinearLayoutManager(this);

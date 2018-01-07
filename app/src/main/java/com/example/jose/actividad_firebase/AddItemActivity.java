@@ -7,6 +7,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
+
+import com.example.jose.actividad_firebase.Model.Item;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class AddItemActivity extends AppCompatActivity {
 
@@ -16,7 +21,7 @@ public class AddItemActivity extends AppCompatActivity {
     Button btn_addItem, btn_cancel;
 
     //BBDD
-
+    DatabaseReference BBDD;
     //Variables
 
 
@@ -27,11 +32,13 @@ public class AddItemActivity extends AppCompatActivity {
 
         //Initiations
         txt_description = (EditText) findViewById(R.id.txt_newItemDescription);
-        txt_description = (EditText) findViewById(R.id.txt_newItemDescription);
-        txt_description = (EditText) findViewById(R.id.txt_newItemDescription);
+        txt_name = (EditText) findViewById(R.id.txt_newItemName);
+        txt_price = (EditText) findViewById(R.id.txt_newItemPrice);
         spinnerCategory = (Spinner) findViewById(R.id.spinnerNewItemCategory);
         btn_addItem = (Button) findViewById(R.id.btn_addNewItem);
         btn_cancel = (Button) findViewById(R.id.btn_cancelNewItem);
+
+        BBDD = FirebaseDatabase.getInstance().getReference("items");
 
 
         //spinner inflate
@@ -51,7 +58,12 @@ public class AddItemActivity extends AppCompatActivity {
             public void onClick(View v) {
                boolean correctEditextData  = test_editext_data();
                 if(correctEditextData){
-
+                    String key = BBDD.push().getKey();
+                   // Toast.makeText(getApplicationContext(),key,Toast.LENGTH_LONG).show();
+                    Item i = new Item(txt_name.getText().toString(), txt_description.getText().toString(), spinnerCategory.getSelectedItem().toString(), txt_price.getText().toString(), getIntent().getExtras().getString("userUID"));
+                    BBDD.child(key).setValue(i);
+                    setResult(RESULT_OK, getIntent());
+                    finish();
                 }
             }
         });

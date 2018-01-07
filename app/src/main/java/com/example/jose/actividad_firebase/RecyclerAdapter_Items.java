@@ -39,6 +39,7 @@ public class RecyclerAdapter_Items extends RecyclerView.Adapter<RecyclerAdapter_
     }
 
     public void updateAdapter(ArrayList<Item> items){
+
         this.items = items;
         notifyDataSetChanged();
     }
