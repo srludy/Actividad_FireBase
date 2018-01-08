@@ -4,56 +4,60 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.jose.actividad_firebase.AddItemActivity">
+    tools:context="com.example.jose.actividad_firebase.ModifyItem_Activity">
 
     <Button
-        android:id="@+id/btn_cancelNewItem"
+        android:id="@+id/btn_cancelModifyItem"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="130dp"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/btn_addItem"
+        android:layout_alignBaseline="@+id/btn_modifyItem"
+        android:layout_alignBottom="@+id/btn_modifyItem"
         android:layout_marginLeft="30dp"
-        android:layout_toRightOf="@+id/btn_addItem"
+        android:layout_marginStart="30dp"
+        android:layout_toEndOf="@+id/btn_modifyItem"
         android:background="#FF48C15E"
         android:text="Cancelar" />
 
     <Button
-        android:id="@+id/btn_addItem"
+        android:id="@+id/btn_modifyItem"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="130dp"
         android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/scrollNewItem"
         android:layout_below="@+id/scrollNewItem"
         android:layout_marginLeft="40dp"
+        android:layout_marginStart="26dp"
         android:layout_marginTop="20dp"
         android:background="#FF48C15E"
-        android:text="Añadir" />
+        android:text="Modificar" />
 
     <TextView
         android:id="@+id/textView20"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="¡Nuevo Item!"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="29dp"
+        android:text="Modifica los Campos de tu Item"
         android:textColor="@color/colorPrimary"
         android:textSize="18sp"
         android:textStyle="bold"
         tools:layout_editor_absoluteX="141dp"
-        tools:layout_editor_absoluteY="64dp"
-        android:layout_marginTop="29dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        tools:layout_editor_absoluteY="64dp" />
 
     <ScrollView
         android:id="@+id/scrollNewItem"
         android:layout_width="match_parent"
         android:layout_height="300dp"
+        android:layout_below="@+id/textView20"
+        android:layout_centerHorizontal="true"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginTop="15dp"
         android:background="@drawable/borderacc"
         android:fadeScrollbars="false"
-        android:scrollbarThumbVertical="@drawable/scroll"
-        android:layout_below="@+id/textView20"
-        android:layout_centerHorizontal="true">
+        android:scrollbarThumbVertical="@drawable/scroll">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -61,16 +65,16 @@
             android:orientation="vertical">
 
             <Spinner
-                android:id="@+id/spinnerNewItemCategory"
+                android:id="@+id/spinnerModifyCategory"
                 android:layout_width="230dp"
                 android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/txt_newItemPrice"
-                android:layout_below="@+id/txt_newItemPrice"
+                android:layout_alignStart="@+id/txt_modifyPrice"
+                android:layout_below="@+id/txt_modifyPrice"
                 android:layout_marginBottom="20dp"
                 android:layout_marginTop="30dp" />
 
             <EditText
-                android:id="@+id/txt_newNameItem"
+                android:id="@+id/txt_modifyName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
@@ -80,22 +84,22 @@
                 android:inputType="textPersonName" />
 
             <EditText
-                android:id="@+id/txt_newDescItem"
+                android:id="@+id/txt_modifyDesc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/txt_modifyName"
+                android:layout_below="@+id/txt_modifyName"
                 android:layout_marginTop="41dp"
                 android:ems="10"
                 android:hint="Descripcion"
-                android:inputType="textPersonName"
-                android:layout_below="@+id/txt_newNameItem"
-                android:layout_alignStart="@+id/txt_newNameItem" />
+                android:inputType="textPersonName" />
 
             <EditText
-                android:id="@+id/txt_newItemPrice"
+                android:id="@+id/txt_modifyPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/txt_newDescItem"
-                android:layout_below="@+id/txt_newDescItem"
+                android:layout_alignStart="@+id/txt_modifyDesc"
+                android:layout_below="@+id/txt_modifyDesc"
                 android:layout_marginBottom="20dp"
                 android:layout_marginTop="40dp"
                 android:ems="10"
@@ -103,5 +107,4 @@
                 android:inputType="textPersonName" />
         </RelativeLayout>
     </ScrollView>
-
 </RelativeLayout>

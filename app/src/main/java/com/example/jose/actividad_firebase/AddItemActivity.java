@@ -7,7 +7,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.example.jose.actividad_firebase.Model.Item;
 import com.google.firebase.database.DatabaseReference;
@@ -31,11 +30,11 @@ public class AddItemActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_item);
 
         //Initiations
-        txt_description = (EditText) findViewById(R.id.txt_newItemDescription);
-        txt_name = (EditText) findViewById(R.id.txt_newItemName);
+        txt_description = (EditText) findViewById(R.id.txt_newDescItem);
+        txt_name = (EditText) findViewById(R.id.txt_newNameItem);
         txt_price = (EditText) findViewById(R.id.txt_newItemPrice);
         spinnerCategory = (Spinner) findViewById(R.id.spinnerNewItemCategory);
-        btn_addItem = (Button) findViewById(R.id.btn_addNewItem);
+        btn_addItem = (Button) findViewById(R.id.btn_addItem);
         btn_cancel = (Button) findViewById(R.id.btn_cancelNewItem);
 
         BBDD = FirebaseDatabase.getInstance().getReference("items");

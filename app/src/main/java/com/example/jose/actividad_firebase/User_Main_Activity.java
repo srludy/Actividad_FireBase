@@ -5,6 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.AdapterView;
@@ -30,8 +33,14 @@ import java.util.ArrayList;
 
 public class User_Main_Activity extends AppCompatActivity {
 
+
+    //Variables
+    int itemPosition;
+    boolean filtered;
+
     //Finals
     private final static int ADD_ITEM_ACTIVITY = 2;
+    private final static int MODIFY_ITEM_ACTIVITY = 3;
 
     //Views
     Button btn_addItem;
@@ -53,6 +62,7 @@ public class User_Main_Activity extends AppCompatActivity {
     //ArrayList
     ArrayList<Item> items;
     ArrayList <Item> filteredItems;
+    ArrayList<Item> userItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +81,7 @@ public class User_Main_Activity extends AppCompatActivity {
         allItems = FirebaseDatabase.getInstance().getReference("items");
         recyclerView = (RecyclerView) findViewById(R.id.recycler_userItems);
         items = new ArrayList();
+        userItems = new ArrayList();
         filteredItems = new ArrayList();
         inflateRecyclerView();
 
@@ -119,7 +130,7 @@ public class User_Main_Activity extends AppCompatActivity {
                     categorySpinner.setSelection(0);
                 }else{
                     if(checkBox_MyItems.isChecked()){
-                        ArrayList<Item> userItems = new ArrayList();
+                        userItems.clear();
                         for (int i = 0 ; i < items.size() ; i++){
                             if(items.get(i).getUserUID().equals(userUID)) {
                                 userItems.add(items.get(i));
@@ -140,6 +151,7 @@ public class User_Main_Activity extends AppCompatActivity {
                 switch (categorySpinner.getItemAtPosition(position).toString()){
 
                     case "Todo":
+                        filtered = false;
                         allItems.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -149,7 +161,7 @@ public class User_Main_Activity extends AppCompatActivity {
                                     items.add(item);
                                 }
                                 if(checkBox_MyItems.isChecked()){
-                                    ArrayList<Item> userItems = new ArrayList();
+                                    userItems.clear();
                                     for (int i = 0 ; i < items.size() ; i++){
                                         if(items.get(i).getUserUID().equals(userUID)) {
                                             userItems.add(items.get(i));
@@ -170,30 +182,63 @@ public class User_Main_Activity extends AppCompatActivity {
                         break;
 
                     case "Coches":
-                        for (int i = 0 ; i < items.size() ; i++){
-                            if(items.get(i).getCategory().equals("Coches")){
-                                filteredItems.add(items.get(i));
+                        filteredItems.clear();
+                        filtered = true;
+                        if(checkBox_MyItems.isChecked()){
+                            for (int i = 0 ; i < userItems.size() ; i++){
+                                if(userItems.get(i).getCategory().equals("Coches")){
+                                    filteredItems.add(userItems.get(i));
+                                }
                             }
+                            updateAdapter(filteredItems);
+                        }else{
+                            for (int i = 0 ; i < items.size() ; i++){
+                                if(items.get(i).getCategory().equals("Coches")){
+                                    filteredItems.add(items.get(i));
+                                }
+                            }
+                            updateAdapter(filteredItems);
                         }
-                        updateAdapter(filteredItems);
                         break;
 
                     case "Hogar":
-                        for (int i = 0 ; i < items.size() ; i++){
-                            if(items.get(i).getCategory().equals("Hogar")){
-                                filteredItems.add(items.get(i));
+                        filteredItems.clear();
+                        filtered = true;
+                        if(checkBox_MyItems.isChecked()){
+                            for (int i = 0 ; i < userItems.size() ; i++){
+                                if(userItems.get(i).getCategory().equals("Hogar")){
+                                    filteredItems.add(userItems.get(i));
+                                }
                             }
+                            updateAdapter(filteredItems);
+                        }else{
+                            for (int i = 0 ; i < items.size() ; i++){
+                                if(items.get(i).getCategory().equals("Hogar")){
+                                    filteredItems.add(items.get(i));
+                                }
+                            }
+                            updateAdapter(filteredItems);
                         }
-                        updateAdapter(filteredItems);
                         break;
 
                     case "Tecnologia":
-                        for (int i = 0 ; i < items.size() ; i++){
-                            if(items.get(i).getCategory().equals("Tecnologia")){
-                                filteredItems.add(items.get(i));
+                        filteredItems.clear();
+                        filtered = true;
+                        if(checkBox_MyItems.isChecked()){
+                            for (int i = 0 ; i < userItems.size() ; i++){
+                                if(userItems.get(i).getCategory().equals("Tecnologia")){
+                                    filteredItems.add(userItems.get(i));
+                                }
                             }
+                            updateAdapter(filteredItems);
+                        }else{
+                            for (int i = 0 ; i < items.size() ; i++){
+                                if(items.get(i).getCategory().equals("Tecnologia")){
+                                    filteredItems.add(items.get(i));
+                                }
+                            }
+                            updateAdapter(filteredItems);
                         }
-                        updateAdapter(filteredItems);
                         break;
                 }
             }
@@ -225,7 +270,7 @@ public class User_Main_Activity extends AppCompatActivity {
                                         items.add(item);
                                     }
                                     if(checkBox_MyItems.isChecked()){
-                                        ArrayList<Item> userItems = new ArrayList();
+                                        userItems.clear();
                                         for (int i = 0 ; i < items.size() ; i++){
                                             if(items.get(i).getUserUID().equals(userUID)) {
                                                 userItems.add(items.get(i));
@@ -246,22 +291,27 @@ public class User_Main_Activity extends AppCompatActivity {
 
                         break;
                     case RESULT_CANCELED:
-
+                        Toast.makeText(getApplicationContext(),"Se ha Cancelado el nuevo Item.",Toast.LENGTH_LONG).show();
                         break;
+                }
+            break;
+            case MODIFY_ITEM_ACTIVITY:
+                switch (resultCode){
+
                 }
             break;
         }
     }
 
-    private void userItemsFiltered(){
-
+    public void getItemPosition(int itemPosition){
+        this.itemPosition = itemPosition;
     }
 
     private void inflateRecyclerView(){
         linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        adapter = new RecyclerAdapter_Items(items);
+        adapter = new RecyclerAdapter_Items(items, this);
         recyclerView.setAdapter(adapter);
 
     }
@@ -269,4 +319,42 @@ public class User_Main_Activity extends AppCompatActivity {
         adapter.updateAdapter(items);
     }
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        if(checkBox_MyItems.isChecked()){
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.context_menu_user, menu);
+        }
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.modifyItem:
+                Intent i = new Intent(this, ModifyItem_Activity.class);
+                if (filtered){
+                    i.putExtra("itemName", filteredItems.get(itemPosition).getName());
+                    i.putExtra("itemDesc", filteredItems.get(itemPosition).getDescription());
+                    i.putExtra("itemPrice", filteredItems.get(itemPosition).getPrice());
+
+                    startActivityForResult(i,MODIFY_ITEM_ACTIVITY);
+                }else{
+
+                    i.putExtra("itemName", userItems.get(itemPosition).getName());
+                    i.putExtra("itemDesc", userItems.get(itemPosition).getDescription());
+                    i.putExtra("itemPrice", userItems.get(itemPosition).getPrice());
+
+                    startActivityForResult(i,MODIFY_ITEM_ACTIVITY);
+                }
+                break;
+
+            case R.id.deleteItem:
+                break;
+
+        }
+
+        return super.onContextItemSelected(item);
+    }
 }

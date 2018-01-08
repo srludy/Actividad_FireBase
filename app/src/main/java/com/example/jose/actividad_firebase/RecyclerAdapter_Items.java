@@ -17,13 +17,15 @@ import java.util.ArrayList;
 public class RecyclerAdapter_Items extends RecyclerView.Adapter<RecyclerAdapter_Items.ViewHolder>{
 
     ArrayList<Item> items;
+    static User_Main_Activity activity;
 
-    public RecyclerAdapter_Items(ArrayList<Item> items){
+    public RecyclerAdapter_Items(ArrayList<Item> items, User_Main_Activity activity){
         this.items = items;
+        this.activity = activity;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-
+        View v;
         TextView name;
         TextView description;
         TextView price;
@@ -31,10 +33,12 @@ public class RecyclerAdapter_Items extends RecyclerView.Adapter<RecyclerAdapter_
 
         public ViewHolder(View itemView) {
             super(itemView);
+
+            this.v = itemView;
             name = (TextView) itemView.findViewById(R.id.CV_ItemName);
             description = (TextView)itemView.findViewById(R.id.CV_ItemDescription);
             price = (TextView) itemView.findViewById(R.id.CV_ItemPrice);
-
+            itemView.setOnCreateContextMenuListener(activity);
         }
     }
 
@@ -55,10 +59,17 @@ public class RecyclerAdapter_Items extends RecyclerView.Adapter<RecyclerAdapter_
     }
 
     @Override
-    public void onBindViewHolder(RecyclerAdapter_Items.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerAdapter_Items.ViewHolder holder, final int position) {
         holder.name.setText(items.get(position).getName());
         holder.description.setText(items.get(position).getDescription());
         holder.price.setText(items.get(position).getPrice());
+        holder.v.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                activity.getItemPosition(position);
+                return false;
+            }
+        });
 
 
     }
