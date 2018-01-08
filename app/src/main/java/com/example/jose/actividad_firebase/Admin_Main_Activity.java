@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.jose.actividad_firebase.Model.Item;
 import com.example.jose.actividad_firebase.Model.User;
@@ -40,15 +41,16 @@ public class Admin_Main_Activity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recyclerUsers);
         linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
-        adapter_users = new RecyclerAdapter_Users(users, this);
+        adapter_users = new RecyclerAdapter_Users(users);
+
 
 
     }
 
     private void inflateAdapterUsers() {
-
-        reference = FirebaseDatabase.getInstance().getReference("users");
         users.clear();
+        reference = FirebaseDatabase.getInstance().getReference("users");
+
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -56,14 +58,14 @@ public class Admin_Main_Activity extends AppCompatActivity {
                     User user = dataSnapshot1.getValue(User.class);
                     users.add(user);
                 }
+                adapter_users.updateAdapter(users);
+                recyclerView.setAdapter(adapter_users);
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
         });
-        adapter_users.updateAdapter(users);
-        recyclerView.setAdapter(adapter_users);
     }
 
     @Override
@@ -78,6 +80,7 @@ public class Admin_Main_Activity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.ShowUsers:
+                Toast.makeText(getApplicationContext(),"22",Toast.LENGTH_LONG).show();
                 inflateAdapterUsers();
                 return true;
             default:

@@ -19,7 +19,7 @@ public class RecyclerAdapter_Users extends RecyclerView.Adapter<RecyclerAdapter_
 
     ArrayList<User> users;
 
-    public RecyclerAdapter_Users(ArrayList<User> users, Admin_Main_Activity admin_main_activity){
+    public RecyclerAdapter_Users(ArrayList<User> users){
         this.users = users;
     }
 
@@ -65,12 +65,8 @@ public class RecyclerAdapter_Users extends RecyclerView.Adapter<RecyclerAdapter_
     }
 
     @Override
-    public int getItemCount()
-    {
-        if(users.isEmpty()){
-            return 0;
-        }else{
-            return users.size();
-        }
+    public int getItemCount(){
+        return users.size();
     }
+
 }
