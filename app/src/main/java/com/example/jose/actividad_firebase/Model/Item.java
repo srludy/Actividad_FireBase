@@ -8,16 +8,26 @@ public class Item {
     String category;
     String price;
     String userUID;
-
-    public Item(String name, String description, String category, String price, String userUID) {
+    String key;
+    public Item(String name, String description, String category, String price, String userUID, String key) {
         this.name = name;
         this.description = description;
         this.category = category;
         this.price = price;
         this.userUID = userUID;
+        this.key = key;
     }
+
     public Item(){
 
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public String getUserUID() {

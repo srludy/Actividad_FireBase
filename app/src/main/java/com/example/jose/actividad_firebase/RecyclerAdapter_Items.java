@@ -42,6 +42,10 @@ public class RecyclerAdapter_Items extends RecyclerView.Adapter<RecyclerAdapter_
         }
     }
 
+    public void deleteItem(ArrayList<Item> items, int position){
+        this.items = items;
+        notifyItemRemoved(position);
+    }
     public void updateAdapter(ArrayList<Item> items){
 
         this.items = items;

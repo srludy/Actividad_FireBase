@@ -54,6 +54,7 @@ public class User_Main_Activity extends AppCompatActivity {
     //BBDD
     DatabaseReference userReference;
     DatabaseReference allItems;
+    DatabaseReference itemReference;
     String userUID ;
 
     //class
@@ -297,7 +298,42 @@ public class User_Main_Activity extends AppCompatActivity {
             break;
             case MODIFY_ITEM_ACTIVITY:
                 switch (resultCode){
+                    case RESULT_OK:
+                        if(categorySpinner.getSelectedItemPosition() != 0){
+                            categorySpinner.setSelection(0);
+                        }else{
+                            items.clear();
+                            allItems.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    for(DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                                        Item item = dataSnapshot1.getValue(Item.class);
+                                        items.add(item);
+                                    }
+                                    if(checkBox_MyItems.isChecked()){
+                                        userItems.clear();
+                                        for (int i = 0 ; i < items.size() ; i++){
+                                            if(items.get(i).getUserUID().equals(userUID)) {
+                                                userItems.add(items.get(i));
+                                            }
+                                        }
+                                        updateAdapter(userItems);
+                                    }else{
+                                        updateAdapter(items);
+                                    }
+                                    Toast.makeText(getApplicationContext(),"El Item se ha modificado con exito.",Toast.LENGTH_LONG).show();
+                                }
 
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+                        }
+                        break;
+
+                    case RESULT_CANCELED:
+                        break;
                 }
             break;
         }
@@ -338,6 +374,7 @@ public class User_Main_Activity extends AppCompatActivity {
                     i.putExtra("itemName", filteredItems.get(itemPosition).getName());
                     i.putExtra("itemDesc", filteredItems.get(itemPosition).getDescription());
                     i.putExtra("itemPrice", filteredItems.get(itemPosition).getPrice());
+                    i.putExtra("itemKey", filteredItems.get(itemPosition).getKey());
 
                     startActivityForResult(i,MODIFY_ITEM_ACTIVITY);
                 }else{
@@ -345,12 +382,42 @@ public class User_Main_Activity extends AppCompatActivity {
                     i.putExtra("itemName", userItems.get(itemPosition).getName());
                     i.putExtra("itemDesc", userItems.get(itemPosition).getDescription());
                     i.putExtra("itemPrice", userItems.get(itemPosition).getPrice());
+                    i.putExtra("itemKey", userItems.get(itemPosition).getKey());
 
                     startActivityForResult(i,MODIFY_ITEM_ACTIVITY);
                 }
                 break;
 
             case R.id.deleteItem:
+                if(filtered){
+                    itemReference = FirebaseDatabase.getInstance().getReference("items/"+filteredItems.get(itemPosition).getKey());
+                    itemReference.removeValue();
+                    filteredItems.remove(itemPosition);
+                    adapter.deleteItem(filteredItems, itemPosition);
+                    Toast.makeText(getApplicationContext(),"Se ha eliminado el item.",Toast.LENGTH_LONG).show();
+
+                }else{
+                    itemReference = FirebaseDatabase.getInstance().getReference("items/"+userItems.get(itemPosition).getKey());
+                    itemReference.removeValue();
+                    userItems.remove(itemPosition);
+                    adapter.deleteItem(userItems, itemPosition);
+                    items.clear();
+                    allItems.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for(DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                                Item item = dataSnapshot1.getValue(Item.class);
+                                items.add(item);
+                            }
+                        }
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                    Toast.makeText(getApplicationContext(),"Se ha eliminado el item.",Toast.LENGTH_LONG).show();
+
+                }
                 break;
 
         }

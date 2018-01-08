@@ -59,7 +59,7 @@ public class AddItemActivity extends AppCompatActivity {
                 if(correctEditextData){
                     String key = BBDD.push().getKey();
                    // Toast.makeText(getApplicationContext(),key,Toast.LENGTH_LONG).show();
-                    Item i = new Item(txt_name.getText().toString(), txt_description.getText().toString(), spinnerCategory.getSelectedItem().toString(), txt_price.getText().toString(), getIntent().getExtras().getString("userUID"));
+                    Item i = new Item(txt_name.getText().toString(), txt_description.getText().toString(), spinnerCategory.getSelectedItem().toString(), txt_price.getText().toString(), getIntent().getExtras().getString("userUID"), key);
                     BBDD.child(key).setValue(i);
                     setResult(RESULT_OK, getIntent());
                     finish();
