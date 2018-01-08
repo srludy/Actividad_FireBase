@@ -10,15 +10,25 @@ public class User {
     String email;
     String name;
     String adress;
+    String auth;
 
     public User() {
     }
 
-    public User(String userName, String email, String name, String adress) {
+    public User(String userName, String email, String name, String adress, String auth) {
         this.userName = userName;
         this.email = email;
         this.name = name;
         this.adress = adress;
+        this.auth = auth;
+    }
+
+    public String getAuth() {
+        return auth;
+    }
+
+    public void setAuth(String auth) {
+        this.auth = auth;
     }
 
     public String getUserName() {

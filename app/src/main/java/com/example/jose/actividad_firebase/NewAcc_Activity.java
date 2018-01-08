@@ -155,7 +155,7 @@ public class NewAcc_Activity extends AppCompatActivity {
         });
     }
     private void addUserToDataBase(String key){
-        User u = new User(txt_UserName.getText().toString(), txt_Email.getText().toString(), txt_Name.getText().toString(), txt_Adress.getText().toString());
+        User u = new User(txt_UserName.getText().toString(), txt_Email.getText().toString(), txt_Name.getText().toString(), txt_Adress.getText().toString(), "user");
         BBDD.child(key).setValue(u);
     }
     private void addUser(){

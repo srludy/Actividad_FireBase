@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.jose.actividad_firebase.Model.Item;
 import com.example.jose.actividad_firebase.Model.User;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class RecyclerAdapter_Users extends RecyclerView.Adapter<RecyclerAdapter_
 
     ArrayList<User> users;
 
-    public RecyclerAdapter_Users(ArrayList<User> users){
+    public RecyclerAdapter_Users(ArrayList<User> users, Admin_Main_Activity admin_main_activity){
         this.users = users;
     }
 
@@ -38,6 +39,12 @@ public class RecyclerAdapter_Users extends RecyclerView.Adapter<RecyclerAdapter_
         }
     }
 
+
+    public void updateAdapter(ArrayList<User> users){
+
+        this.users = users;
+        notifyDataSetChanged();
+    }
 
     @Override
     public RecyclerAdapter_Users.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

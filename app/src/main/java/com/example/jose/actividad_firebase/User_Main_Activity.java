@@ -71,6 +71,7 @@ public class User_Main_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_user__main_);
         getSupportActionBar().setTitle("Servipop");
 
+
         //Initiations
 
         btn_addItem = (Button) findViewById(R.id.btnAddItem);

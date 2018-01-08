@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.jose.actividad_firebase.Model.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,6 +25,11 @@ public class MainActivity extends AppCompatActivity {
     //Views
     Button btn_Login, btn_newAccount;
 
+    //BBDD
+    DatabaseReference reference;
+
+    //Variable
+    String userUID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,9 +67,31 @@ public class MainActivity extends AppCompatActivity {
             case LOGIN_ACTIVITY_CODE:
                 switch (resultCode){
                     case RESULT_OK:
-                        Intent i = new Intent(getApplicationContext(), User_Main_Activity.class);
-                        i.putExtra("userUID",data.getExtras().getString("userUID"));
-                        startActivity(i);
+
+                        userUID = data.getExtras().getString("userUID");
+
+                        reference = FirebaseDatabase.getInstance().getReference("users/"+userUID);
+                        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                               User user = dataSnapshot.getValue(User.class);
+                                if(user.getAuth().equals("user")){
+                                    Intent i = new Intent(getApplicationContext(), User_Main_Activity.class);
+                                    i.putExtra("userUID", userUID);
+                                    startActivity(i);
+                                }else{
+                                    Intent i = new Intent(getApplicationContext(), Admin_Main_Activity.class);
+                                    i.putExtra("userUID", userUID);
+                                    startActivity(i);
+                                }
+                            }
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
                         break;
                     case RESULT_CANCELED:
                         break;
