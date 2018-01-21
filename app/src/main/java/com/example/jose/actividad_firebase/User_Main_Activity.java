@@ -456,12 +456,15 @@ public class User_Main_Activity extends AppCompatActivity {
             case R.id.ModifyUserInfo:
                 Intent i = new Intent(this, ModifyUserInfo.class);
                 startActivityForResult(i, MODIFY_USER_ACTIVITY);
-
                 return true;
+
             case R.id.logout:
-                Toast.makeText(getApplicationContext(), "722", Toast.LENGTH_LONG).show();
-
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                finish();
                 return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }

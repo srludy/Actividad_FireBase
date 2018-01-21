@@ -80,10 +80,12 @@ public class MainActivity extends AppCompatActivity {
                                     Intent i = new Intent(getApplicationContext(), User_Main_Activity.class);
                                     i.putExtra("userUID", userUID);
                                     startActivity(i);
+                                    finish();
                                 }else{
                                     Intent i = new Intent(getApplicationContext(), Admin_Main_Activity.class);
                                     i.putExtra("userUID", userUID);
                                     startActivity(i);
+                                    finish();
                                 }
                             }
                             @Override
@@ -105,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
                         Intent i = new Intent(getApplicationContext(), User_Main_Activity.class);
                         i.putExtra("userUID",data.getExtras().getString("userUID"));
                         startActivity(i);
+                        finish();
                         break;
                     case RESULT_CANCELED:
                         break;
