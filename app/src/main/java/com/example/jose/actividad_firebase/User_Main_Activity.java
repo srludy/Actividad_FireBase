@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,8 +22,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.jose.actividad_firebase.Model.Item;
+import com.example.jose.actividad_firebase.Model.ModifyUserInfo;
 import com.example.jose.actividad_firebase.Model.User;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,6 +33,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.TooManyListenersException;
 
 public class User_Main_Activity extends AppCompatActivity {
 
@@ -41,6 +45,7 @@ public class User_Main_Activity extends AppCompatActivity {
     //Finals
     private final static int ADD_ITEM_ACTIVITY = 2;
     private final static int MODIFY_ITEM_ACTIVITY = 3;
+    private final static int MODIFY_USER_ACTIVITY = 4;
 
     //Views
     Button btn_addItem;
@@ -55,6 +60,7 @@ public class User_Main_Activity extends AppCompatActivity {
     DatabaseReference userReference;
     DatabaseReference allItems;
     DatabaseReference itemReference;
+    FirebaseUser firebaseUser;
     String userUID ;
 
     //class
@@ -73,7 +79,7 @@ public class User_Main_Activity extends AppCompatActivity {
 
 
         //Initiations
-
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         btn_addItem = (Button) findViewById(R.id.btnAddItem);
         checkBox_MyItems = (CheckBox) findViewById(R.id.checkBoxMyItems);
         categorySpinner = (Spinner) findViewById(R.id.categorySpinner);
@@ -337,6 +343,17 @@ public class User_Main_Activity extends AppCompatActivity {
                         break;
                 }
             break;
+
+            case MODIFY_USER_ACTIVITY:
+                switch (resultCode){
+                    case RESULT_OK:
+                        Toast.makeText(getApplicationContext(),"Informacion modificada correctamente", Toast.LENGTH_LONG).show();
+                        break;
+                    case RESULT_CANCELED:
+                        Toast.makeText(getApplicationContext(),"Proceso de modificacion cancelado.", Toast.LENGTH_LONG).show();
+                        break;
+                }
+            break;
         }
     }
 
@@ -422,7 +439,31 @@ public class User_Main_Activity extends AppCompatActivity {
                 break;
 
         }
-
         return super.onContextItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.option_menu_user, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.ModifyUserInfo:
+                Intent i = new Intent(this, ModifyUserInfo.class);
+                startActivityForResult(i, MODIFY_USER_ACTIVITY);
+
+                return true;
+            case R.id.logout:
+                Toast.makeText(getApplicationContext(), "722", Toast.LENGTH_LONG).show();
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

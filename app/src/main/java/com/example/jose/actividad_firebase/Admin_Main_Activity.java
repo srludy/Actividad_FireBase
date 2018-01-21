@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,7 +25,6 @@ public class Admin_Main_Activity extends AppCompatActivity {
 
     //BDDD
     DatabaseReference reference;
-
     RecyclerView recyclerView;
     RecyclerAdapter_Users adapter_users;
     LinearLayoutManager linearLayoutManager;
@@ -50,7 +50,6 @@ public class Admin_Main_Activity extends AppCompatActivity {
     private void inflateAdapterUsers() {
         users.clear();
         reference = FirebaseDatabase.getInstance().getReference("users");
-
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -63,7 +62,7 @@ public class Admin_Main_Activity extends AppCompatActivity {
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                Log.d("databaseERror", databaseError.toString());
             }
         });
     }

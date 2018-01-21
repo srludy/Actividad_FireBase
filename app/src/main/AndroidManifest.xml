@@ -25,7 +25,8 @@
         <activity android:name=".Admin_Main_Activity" />
         <activity android:name=".User_Main_Activity" />
         <activity android:name=".AddItemActivity" />
-        <activity android:name=".ModifyItem_Activity"></activity>
+        <activity android:name=".ModifyItem_Activity" />
+        <activity android:name=".Model.ModifyUserInfo"></activity>
     </application>
 
 </manifest>
