@@ -110,7 +110,7 @@ public class NewAcc_Activity extends AppCompatActivity {
         }
         return data_Test;
     }
-
+    //COMPROBACIONES
     private void test_UserNameAndEmail(){
 
         Query q = BBDD.orderByChild("userName").equalTo(txt_UserName.getText().toString());
@@ -154,10 +154,13 @@ public class NewAcc_Activity extends AppCompatActivity {
             }
         });
     }
+    //AÑADE USUARIO
     private void addUserToDataBase(String key){
         User u = new User(txt_UserName.getText().toString(), txt_Email.getText().toString(), txt_Name.getText().toString(), txt_Adress.getText().toString(), "user");
         BBDD.child(key).setValue(u);
     }
+
+    //AÑADE UN AUTH
     private void addUser(){
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuth.createUserWithEmailAndPassword(txt_Email.getText().toString(), txt_Pass.getText().toString())

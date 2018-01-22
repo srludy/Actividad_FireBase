@@ -130,7 +130,7 @@ public class User_Main_Activity extends AppCompatActivity {
             }
         });
 
-
+        //CHECKBOX
         checkBox_MyItems.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -152,12 +152,12 @@ public class User_Main_Activity extends AppCompatActivity {
             }
         });
 
-
+        //SPINNER
         categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch (categorySpinner.getItemAtPosition(position).toString()){
-
+                    //TODO REFRESCA TODOS LOS ITEMS
                     case "Todo":
                         filtered = false;
                         allItems.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -405,13 +405,33 @@ public class User_Main_Activity extends AppCompatActivity {
                     startActivityForResult(i,MODIFY_ITEM_ACTIVITY);
                 }
                 break;
-
+            //BORRAR UN ITEM
             case R.id.deleteItem:
                 if(filtered){
                     itemReference = FirebaseDatabase.getInstance().getReference("items/"+filteredItems.get(itemPosition).getKey());
                     itemReference.removeValue();
                     filteredItems.remove(itemPosition);
                     adapter.deleteItem(filteredItems, itemPosition);
+                    items.clear();
+                    allItems.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for(DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                                Item item = dataSnapshot1.getValue(Item.class);
+                                items.add(item);
+                            }
+                            userItems.clear();
+                            for (int i = 0 ; i < items.size() ; i++){
+                                if(items.get(i).getUserUID().equals(userUID)) {
+                                    userItems.add(items.get(i));
+                                }
+                            }
+                        }
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Toast.makeText(getApplicationContext(),"Error cargando datos.",Toast.LENGTH_LONG).show();
+                        }
+                    });
                     Toast.makeText(getApplicationContext(),"Se ha eliminado el item.",Toast.LENGTH_LONG).show();
 
                 }else{
@@ -430,7 +450,7 @@ public class User_Main_Activity extends AppCompatActivity {
                         }
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
-
+                            Toast.makeText(getApplicationContext(),"Error cargando datos.",Toast.LENGTH_LONG).show();
                         }
                     });
                     Toast.makeText(getApplicationContext(),"Se ha eliminado el item.",Toast.LENGTH_LONG).show();
@@ -449,7 +469,7 @@ public class User_Main_Activity extends AppCompatActivity {
         inflater.inflate(R.menu.option_menu_user, menu);
         return true;
     }
-
+    //OPCIONES DEL MENU
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
